@@ -1,0 +1,65 @@
+function exportContactsToSingleVCF() {
+  var spreadsheet = SpreadsheetApp.openByUrl('YOUR G SHEET URL')
+  var sheet = spreadsheet.getSheetByName('PAGE NAME'); // Substitua pelo nome da aba onde estão os contatos
+  var dataRange = sheet.getDataRange();
+  var data = dataRange.getValues();
+  
+  var vcfContent = "";
+  
+  // Começando da segunda linha para ignorar os cabeçalhos
+  for (var i = 1; i < data.length; i++) {
+    var contact = {
+      nome: data[i][0],
+      sobrenome: data[i][1],
+      telefone: data[i][2],
+      email: data[i][3]
+    };
+    
+    vcfContent += createVCF(contact);
+  }
+
+  // Abre a pasta dos contatos
+  var folderName = 'Automação Contatos - VCF'; // NAME OF YOUR FOLDER
+  var folder = DriveApp.getFoldersByName(folderName).next(); // Procura pela pasta  
+  var filename = 'contatos.vcf'; // NAME OF VCF FILE
+
+  // Verifica se o arquivo já existe e o exclui
+  var existingFiles = folder.getFilesByName(filename);
+  while (existingFiles.hasNext()) {
+    existingFiles.next().setTrashed(true);
+  }
+  
+  // Cria o novo arquivo .vcf
+  var file = folder.createFile(filename, vcfContent, MimeType.PLAIN_TEXT);
+  
+  // Recupera o ID do arquivo para compartilhamento
+  var fileID = file.getId();
+  // Compartilha o arquivo com o usuário
+  compartilharArquivo(fileID);
+}
+
+function createVCF(contact) {
+  var vcfContent = "BEGIN:VCARD\n";
+  vcfContent += "VERSION:3.0\n";
+  vcfContent += "N:" + contact.sobrenome + ";" + contact.nome + ";;;\n";
+  vcfContent += "FN:" + contact.nome + " " + contact.sobrenome + "\n";
+  vcfContent += "TEL;TYPE=CELL:" + contact.telefone + "\n";
+  vcfContent += "EMAIL:" + contact.email + "\n";
+  vcfContent += "END:VCARD\n\n";
+  return vcfContent;
+}
+
+function compartilharArquivo(id) {
+  
+  var fileId = id; // Substitua pelo ID do arquivo que você deseja compartilhar
+  var email = Browser.inputBox("Compartilhar com", "Insira o e-mail do destinatário:", Browser.Buttons.OK_CANCEL);
+
+  if (email === "cancel") {
+    return; // Se o usuário clicar em "Cancelar", a função é interrompida
+  }
+
+  var file = DriveApp.getFileById(fileId);
+  file.addEditor(email); // Adiciona o destinatário como editor do arquivo
+  Logger.log("Arquivo compartilhado com sucesso com " + email);
+}
+
