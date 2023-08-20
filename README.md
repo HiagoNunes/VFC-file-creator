@@ -15,3 +15,6 @@ How to Use:
 
 To save all the contacts on your phone (to view in WhatsApp, for example):
 7. Open the contacts.vcf file on your phone and wait for all the contacts to update.
+
+Example:
+https://docs.google.com/spreadsheets/d/11M4vkE8XGxJ0OOcpBkFNVe6lCrvuGbdgcYAUOD5nOWg/edit?usp=sharing
