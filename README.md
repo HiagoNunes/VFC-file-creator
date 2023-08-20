@@ -7,7 +7,7 @@ The VCF file is a type of contact file. It's useful for saving multiple contacts
 
 How to Use:
 1. Enter all the contacts you want to add in the "Contacts" spreadsheet (if there are already contacts in the spreadsheet, delete the old contacts and keep only the ones you're interested in).
-2. To ensure the contact is correctly recognized in WhatsApp, it's important that the phone number follows the format in the example: +55 (81) 99999-9999.
+2. To ensure the contact is correctly recognized in WhatsApp, it's important that the phone number follows the format in the example: 55 (81) 99999-9999.
 3. Click the "Save Contacts to VCF File" button available in the Contacts tab.
 4. Enter your email address to receive the created VCF file and click OK.
 5. After the script finishes, check if you've been shared a file named "contacts.vcf."
